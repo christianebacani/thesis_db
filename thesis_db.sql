@@ -4,14 +4,15 @@ USE thesis_db;
 
 CREATE TABLE `users` (
    	user_id INTEGER PRIMARY KEY,
-    employee_id VARCHAR(100),
+    employee_id VARCHAR(20),
     email VARCHAR(100),
     password VARCHAR(100),
     fullname VARCHAR(255),
     role ENUM('Quest Lead', 'Skills Associate'),
     department VARCHAR(255),
     job_position VARCHAR(255),
-    created_at TIMESTAMP 
+    created_at TIMESTAMP,
+    UNIQUE KEY uq_users_employee_id (employee_id)
 );
 
 INSERT INTO users
@@ -33,6 +34,15 @@ CREATE TABLE `achievements` (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE `user_achievements` (
+    user_achievements_id INTEGER PRIMARY KEY,
+    employee_id VARCHAR(20),
+    achievements_id INTEGER,
+    earned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(employee_id) REFERENCES users (employee_id),
+    FOREIGN KEY(achievements_id) REFERENCES achievements (achievements_id)
+);
+
 SELECT *
 FROM
-	users;
+    user_achievements;
